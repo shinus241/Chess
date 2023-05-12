@@ -7,7 +7,7 @@ public class Piece {
         rect = new Rectangle(x, y, w, h);
     }
 
-    public Rectangle getRectnagle(){
+    public Rectangle getRectangle(){
         return rect;
     }
 

@@ -9,15 +9,15 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 public class Component extends JComponent{
-    private int rectangleX;
-    private int rectangleY;
+    private int mouseX;
+    private int mouseY;
     static BufferedImage pawnImage;
     public Component(){
         addMouseListener(new MouseAdapter()
         {
             public void mousePressed(MouseEvent e){
-                rectangleX = e.getX();
-                rectangleY = e.getY();
+                mouseX = e.getX();
+                mouseY = e.getY();
             }
         });
     }
@@ -47,9 +47,6 @@ public class Component extends JComponent{
                 }
             }
         }
-        g.setColor(new Color(255, 0, 0));
-        //g.drawRect(rectangleX, rectangleY, 50, 50);
-        //g.fillRect(rectangleX, rectangleY, 50, 50);
-        g.drawImage(pawnImage, rectangleX, rectangleY, null);
+        g.drawImage(pawnImage, mouseX, mouseY, null);
     }
 }
