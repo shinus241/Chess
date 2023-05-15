@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 public class Game{
-    private int[][] board;
-    private ArrayList<Piece> pieces = new ArrayList<Piece>();
+    private static int[][] board;
+    private static ArrayList<Piece> pieces = new ArrayList<Piece>();
     public static final int EMPTY = 0;
     public static final int wPAWN = 1;
     public static final int wBISHOP = 2;
@@ -66,6 +66,68 @@ public class Game{
                 }
             }
         }
+    }
+
+    public void move(int origX, int origY, int x1, int y1){
+        int temp = board[origY][origX];
+        if(((temp == wPAWN) && (y1 == 0) && (origY == 1)) || ((temp == bPAWN) && (y1 == 7) && (origY == 6))){ // CHECK FOR PROMOTION CONDITIONS
+            System.out.println("promotion");
+            board[origY][origX] = EMPTY;
+            if(temp == wPAWN){
+                board[y1][x1] = wQUEEN;
+                for(int i = 0; i < pieces.size(); i++){
+                    int tempx = pieces.get(i).getX() / 100;
+                    int tempy = pieces.get(i).getY() / 100;
+                    if(tempx == x1 && tempy == y1 && pieces.get(i).selected()){
+                        pieces.add(new Queen(tempx * 100, tempy * 100, 100, 100, true));
+                        pieces.remove(i);
+                        break;
+                    }
+                }
+            }
+            else{
+                board[y1][x1] = bQUEEN;
+                for(int i = 0; i < pieces.size(); i++){
+                    int tempx = pieces.get(i).getX() / 100;
+                    int tempy = pieces.get(i).getY() / 100;
+                    if(tempx == x1 && tempy == y1 && pieces.get(i).selected()){
+                        pieces.add(new Queen(tempx * 100, tempy * 100, 100, 100, false));
+                        pieces.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+        else{
+            board[origY][origX] = EMPTY;
+            board[y1][x1] = temp;
+        }
+        for(int i = 0; i < pieces.size(); i++){
+            int tempx = pieces.get(i).getX() / 100;
+            int tempy = pieces.get(i).getY() / 100;
+            if(tempx == x1 && tempy == y1 && !pieces.get(i).selected()){
+                System.out.println("piece taken");
+                pieces.remove(i);
+                break;
+            }
+        }
+    }
+
+    public static boolean[][] getEnemySpace(boolean color){
+        boolean[][] enemySpace = new boolean[8][8];
+        for(Piece p : pieces){
+            if(p.getColor() != color){
+                boolean[][] enemyLegal = p.getLegal2(board);
+                for(int r = 0; r < 8; r++){
+                    for(int c = 0; c < 8; c++){
+                        if(enemyLegal[r][c]){
+                            enemySpace[r][c] = true;
+                        }
+                    }
+                } 
+            }
+        }
+        return enemySpace;
     }
 
     public Piece selected(int x, int y){

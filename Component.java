@@ -15,6 +15,7 @@ public class Component extends JComponent{
     private ArrayList<Piece> pieces = new ArrayList<Piece>();
     private Game game;
     private boolean pieceCurrentlySelected = false;
+    private int turn = 0;
     public Component(){
         for(int i = 0; i < 800; i += 100){
             pieces.add(new Pawn(i, 600, 100, 100, true));
@@ -44,12 +45,33 @@ public class Component extends JComponent{
                 mouseY = e.getY();
                 if(mouseX < 800 && mouseY < 800){
                     if(pieceCurrentlySelected){
-                        //move the piece to where the mouse is?
+                        for(Piece p : pieces){
+                            if(p.selected()){
+                                int x = mouseX / 100;
+                                int y = mouseY / 100;
+                                if(p.getLegal(game.getBoard())[y][x]){ // UPDATING POSITION OF A PIECE HERE
+                                    int origX = p.getX();
+                                    int origY = p.getY();
+                                    p.setPosition(x * 100, y * 100);
+                                    System.out.println(x + " " + y);
+                                    pieceCurrentlySelected = false;
+                                    game.move(origX / 100, origY / 100, x, y);
+                                    p.set(false);
+                                    turn++;
+                                    break;
+                                }
+                                else{
+                                    p.set(false);
+                                    pieceCurrentlySelected = false;
+                                }
+                            }
+                        }
                     }
-                    else{
+                    else{ //WHAT HAPPENS WHEN A PIECE IS SELECTED
                         Piece selected = game.selected(mouseX, mouseY);
-                        if(selected != null){
+                        if(selected != null && ((selected.getColor() && turn % 2 == 0)||(!selected.getColor() && turn % 2 != 0))){
                             selected.set(true);
+                            pieceCurrentlySelected = true;
                         }
                     }
                 }
@@ -79,13 +101,12 @@ public class Component extends JComponent{
         for(Piece p : pieces){
             p.draw(g);
             if(p.selected()){
-                //get the legal moves 2d array
-                //draw circles where legal moves are
+                boolean[][] temp = p.getLegal(game.getBoard());
                 for(int r = 0; r < 8; r++){
                     for(int c = 0; c < 8; c++){
-                        if(p.getLegal(game.getBoard())[r][c]){
+                        if(temp[r][c]){
                             g.setColor(new Color(0, 0, 255));
-                            g.drawOval(r * 100, c * 100, 100, 100);
+                            g.drawOval(c * 100, r * 100, 100, 100);
                         }
                     }
                 }

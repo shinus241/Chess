@@ -14,6 +14,8 @@ public abstract class Piece {
 
     public abstract boolean[][] getLegal(int[][] b);
 
+    public abstract boolean[][] getLegal2(int[][] b);
+
     public boolean selected(){
         return selected;
     }
@@ -34,9 +36,10 @@ public abstract class Piece {
         return y;
     }
 
-    public void setPosition(int newX, int newY){
-        x = newX;
-        y = newY;
+    public void setPosition(int x1, int y1){
+        x = x1;
+        y = y1;
+        System.out.println("set position test: " + x + " " + y);
     }
 
     public boolean getColor(){
