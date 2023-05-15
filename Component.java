@@ -68,6 +68,9 @@ public class Component extends JComponent{
                         }
                     }
                     else{ //WHAT HAPPENS WHEN A PIECE IS SELECTED
+                        if(game.checked(false)){
+                            System.out.println("check");
+                        }
                         Piece selected = game.selected(mouseX, mouseY);
                         if(selected != null && ((selected.getColor() && turn % 2 == 0)||(!selected.getColor() && turn % 2 != 0))){
                             selected.set(true);

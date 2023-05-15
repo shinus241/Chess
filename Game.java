@@ -130,6 +130,18 @@ public class Game{
         return enemySpace;
     }
 
+    public boolean checked(boolean color){
+        boolean[][] enemySpace = getEnemySpace(color);
+        for(int r = 0; r < 8; r++){
+            for(int c = 0; c < 8; c++){
+                if((color && board[r][c] == wKING && enemySpace[r][c]) || (!color && board[r][c] == bKING && enemySpace[r][c])){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public Piece selected(int x, int y){
         for(Piece p : pieces){
             if(p.intersects(x, y)){
