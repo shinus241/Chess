@@ -5,6 +5,7 @@ public abstract class Piece {
     private int x;
     private int y;
     private boolean selected = false;
+    private boolean canBlockCheck = false;
     public Piece(int x1, int y1, int w, int h, boolean c){
         rect = new Rectangle(x1, y1, w, h);
         x = x1;
@@ -15,6 +16,16 @@ public abstract class Piece {
     public abstract boolean[][] getLegal(int[][] b);
 
     public abstract boolean[][] getLegal2(int[][] b);
+
+    public abstract boolean isChecking(int[][] b);
+
+    public boolean canBlockCheck(){
+        return canBlockCheck;
+    }
+
+    public void setIfCanBlockCheck(boolean b){
+        canBlockCheck = b;
+    }
 
     public boolean selected(){
         return selected;
@@ -56,5 +67,9 @@ public abstract class Piece {
 
     public Image getImage() {
         return ImageLoader.loadCompatibleImage("whitePawn.png");
+    }
+
+    public int getType(){
+        return -1;
     }
 }

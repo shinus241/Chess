@@ -113,7 +113,7 @@ public class Game{
         }
     }
 
-    public static boolean[][] getEnemySpace(boolean color){
+    public static boolean[][] getEnemySpace(boolean color){ // color passed in is the piece's color
         boolean[][] enemySpace = new boolean[8][8];
         for(Piece p : pieces){
             if(p.getColor() != color){
@@ -130,7 +130,7 @@ public class Game{
         return enemySpace;
     }
 
-    public boolean checked(boolean color){
+    public boolean checked(boolean color){ //color passed in is the piece's color
         boolean[][] enemySpace = getEnemySpace(color);
         for(int r = 0; r < 8; r++){
             for(int c = 0; c < 8; c++){
@@ -140,6 +140,40 @@ public class Game{
             }
         }
         return false;
+    }
+
+    public Piece getEnemyChecking(boolean color){ // Color that the piece is
+        for(Piece p : pieces){
+            if(p.isChecking(board) && (p.getColor() != color)){
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Piece> getPiecesThatCanBlockCheck(Piece pieceChecking){
+        ArrayList<Piece> piecesThatCanBlock = new ArrayList<Piece>();
+        boolean[][] attackedSquares = pieceChecking.getLegal2(board);
+        int row = pieceChecking.getY() / 100;
+        int col = pieceChecking.getX() / 100;
+        boolean color = pieceChecking.getColor();
+        for(Piece p : pieces){
+            p.setIfCanBlockCheck(false);
+        }
+        for(Piece p : pieces){
+            if(p.getColor() != color){
+                boolean[][] legal = p.getLegal(board);
+                for(int r = 0; r < 8; r++){
+                    for(int c = 0; c < 8; c++){
+                        if(legal[r][c] && (attackedSquares[r][c] || (r == row && c == col)) && !((board[r][c] == wKING) || (board[r][c] == bKING))){
+                            piecesThatCanBlock.add(p);
+                            p.setIfCanBlockCheck(true);
+                        }
+                    }
+                }
+            }
+        }
+        return piecesThatCanBlock;
     }
 
     public Piece selected(int x, int y){

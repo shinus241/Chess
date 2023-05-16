@@ -200,6 +200,18 @@ public class Pawn extends Piece{
         return legal;
     }
 
+    public boolean isChecking(int[][] b){
+        boolean[][] legal = getLegal2(b);
+        for(int r = 0; r < 8; r++){
+            for(int c = 0; c < 8; c++){
+                if(legal[r][c] && ((getColor() && b[r][c] == Game.bKING) || (!getColor() && b[r][c] == Game.wKING))){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public Image getImage() {
         if(getColor()){
             return ImageLoader.loadCompatibleImage("whitePawn.png");

@@ -61,6 +61,10 @@ public class King extends Piece{
         }
         return legal;
     }
+
+    public boolean isChecking(int[][] b){
+        return false;
+    }
  
     public Image getImage() {
         if(getColor()){

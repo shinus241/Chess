@@ -68,13 +68,26 @@ public class Component extends JComponent{
                         }
                     }
                     else{ //WHAT HAPPENS WHEN A PIECE IS SELECTED
-                        if(game.checked(false)){
-                            System.out.println("check");
+                        if(game.checked(turn % 2 == 0)){
+                            System.out.println("this color is in check");
+                            Piece pieceThatIsChecking = game.getEnemyChecking(turn % 2 == 0);
+                            //find if you can block the check or if you have to move the king
+                            //write a getPiecesThatCanBlockCheck method
+                            ArrayList<Piece> piecesThatCanBlock = game.getPiecesThatCanBlockCheck(pieceThatIsChecking);
+                            Piece selected = game.selected(mouseX, mouseY);
+                            if(selected != null && ((selected.getColor() && turn % 2 == 0 )||(!selected.getColor() && turn % 2 != 0))){
+                                if(selected.canBlockCheck()){
+                                    selected.set(true);
+                                    pieceCurrentlySelected = true;
+                                }
+                            }
                         }
-                        Piece selected = game.selected(mouseX, mouseY);
-                        if(selected != null && ((selected.getColor() && turn % 2 == 0)||(!selected.getColor() && turn % 2 != 0))){
-                            selected.set(true);
-                            pieceCurrentlySelected = true;
+                        else if(!game.checked(turn % 2 == 0)){
+                            Piece selected = game.selected(mouseX, mouseY);
+                            if(selected != null && ((selected.getColor() && turn % 2 == 0)||(!selected.getColor() && turn % 2 != 0))){
+                                selected.set(true);
+                                pieceCurrentlySelected = true;
+                            }
                         }
                     }
                 }
