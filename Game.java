@@ -175,7 +175,6 @@ public class Game{
         }
         else if(pieceChecking.getType() == wBISHOP || pieceChecking.getType() == bBISHOP){
             //first chunk to get position of king
-            System.out.println(color + " bishop checking");
             int kingRow = 0;
             int kingCol = 0;
             for(Piece p : pieces){
@@ -193,11 +192,102 @@ public class Game{
                         boolean[][] legal = p.getLegal(board);
                         if(legal[row + rowDisp * i][col + colDisp * i] && (p.getType() != wKING && p.getType() != bKING)){
                             p.setIfCanBlockCheck(true);
-                            System.out.println(p.getType());
                         }
                     }
                 }
                 attackedSquares[row + rowDisp * i][col + colDisp * i] = true;
+            }
+        }
+        else if(pieceChecking.getType() == wROOK || pieceChecking.getType() == bROOK){
+            int kingRow = 0;
+            int kingCol = 0;
+            for(Piece p : pieces){
+                if((p.getColor() != color) && (p.getType() == wKING || p.getType() == bKING)){
+                    kingCol = p.getX() / 100;
+                    kingRow = p.getY() / 100;
+                }
+            }
+            if(col == kingCol){
+                int rowDisp = (kingRow - row) / Math.abs(kingRow - row);
+                for(int i = 0; i < Math.abs(kingRow - row); i++){
+                    for(Piece p : pieces){
+                        if(p.getColor() != color){
+                            boolean[][] legal = p.getLegal(board);
+                            if(legal[row + rowDisp * i][col] && (p.getType() != wKING && p.getType() != bKING)){
+                                p.setIfCanBlockCheck(true);
+                            }
+                        }
+                    }
+                    attackedSquares[row + rowDisp * i][col] = true;
+                }
+            }
+            else{
+                int colDisp = (kingCol - col) / Math.abs(kingCol - col);
+                for(int i = 0; i < Math.abs(kingCol - col); i++){
+                    for(Piece p : pieces){
+                        if(p.getColor() != color){
+                            boolean[][] legal = p.getLegal(board);
+                            if(legal[row][col + colDisp * i] && (p.getType() != wKING && p.getType() != bKING)){
+                                p.setIfCanBlockCheck(true);
+                            }
+                        }
+                    }
+                    attackedSquares[row][col + colDisp * i] = true;
+                }
+            }
+        }
+        else if(pieceChecking.getType() == wQUEEN || pieceChecking.getType() == bQUEEN){
+            int kingRow = 0;
+            int kingCol = 0;
+            for(Piece p : pieces){
+                if((p.getColor() != color) && (p.getType() == wKING || p.getType() == bKING)){
+                    kingCol = p.getX() / 100;
+                    kingRow = p.getY() / 100;
+                }
+            }
+            if(col == kingCol){
+                int rowDisp = (kingRow - row) / Math.abs(kingRow - row);
+                for(int i = 0; i < Math.abs(kingRow - row); i++){
+                    for(Piece p : pieces){
+                        if(p.getColor() != color){
+                            boolean[][] legal = p.getLegal(board);
+                            if(legal[row + rowDisp * i][col] && (p.getType() != wKING && p.getType() != bKING)){
+                                p.setIfCanBlockCheck(true);
+                            }
+                        }
+                    }
+                    attackedSquares[row + rowDisp * i][col] = true;
+                }
+            }
+            else if(row == kingRow){
+                int colDisp = (kingCol - col) / Math.abs(kingCol - col);
+                for(int i = 0; i < Math.abs(kingCol - col); i++){
+                    for(Piece p : pieces){
+                        if(p.getColor() != color){
+                            boolean[][] legal = p.getLegal(board);
+                            if(legal[row][col + colDisp * i] && (p.getType() != wKING && p.getType() != bKING)){
+                                p.setIfCanBlockCheck(true);
+                            }
+                        }
+                    }
+                    attackedSquares[row][col + colDisp * i] = true;
+                }
+            }
+            else{
+                int rowDisp = (kingRow - row) / Math.abs(kingRow - row);
+                int colDisp = (kingCol - col) / Math.abs(kingCol - col);
+                System.out.println(rowDisp + " " + colDisp);
+                for(int i = 0; i < Math.abs(kingRow - row); i++){
+                    for(Piece p : pieces){
+                        if(p.getColor() != color){
+                            boolean[][] legal = p.getLegal(board);
+                            if(legal[row + rowDisp * i][col + colDisp * i] && (p.getType() != wKING && p.getType() != bKING)){
+                                p.setIfCanBlockCheck(true);
+                            }
+                        }
+                    }
+                    attackedSquares[row + rowDisp * i][col + colDisp * i] = true;
+                }
             }
         }
         return attackedSquares;
