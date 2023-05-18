@@ -16,6 +16,7 @@ public class Component extends JComponent{
     private Game game;
     private boolean pieceCurrentlySelected = false;
     private int turn = 0;
+    private boolean[][] attackedSquares = new boolean[8][8];
     public Component(){
         for(int i = 0; i < 800; i += 100){
             pieces.add(new Pawn(i, 600, 100, 100, true));
@@ -71,9 +72,10 @@ public class Component extends JComponent{
                         if(game.checked(turn % 2 == 0)){
                             System.out.println("this color is in check");
                             Piece pieceThatIsChecking = game.getEnemyChecking(turn % 2 == 0);
+                            System.out.println(pieceThatIsChecking.getType());
                             //find if you can block the check or if you have to move the king
                             //write a getPiecesThatCanBlockCheck method
-                            ArrayList<Piece> piecesThatCanBlock = game.getPiecesThatCanBlockCheck(pieceThatIsChecking);
+                            attackedSquares = game.setPiecesThatCanBlockCheck(pieceThatIsChecking);
                             Piece selected = game.selected(mouseX, mouseY);
                             if(selected != null && ((selected.getColor() && turn % 2 == 0 )||(!selected.getColor() && turn % 2 != 0))){
                                 if(selected.canBlockCheck()){
@@ -87,6 +89,11 @@ public class Component extends JComponent{
                             if(selected != null && ((selected.getColor() && turn % 2 == 0)||(!selected.getColor() && turn % 2 != 0))){
                                 selected.set(true);
                                 pieceCurrentlySelected = true;
+                                for(int r = 0; r < 8; r++){
+                                    for(int c = 0; c < 8; c++){
+                                        attackedSquares[r][c] = true;
+                                    }
+                                }
                             }
                         }
                     }
@@ -120,7 +127,7 @@ public class Component extends JComponent{
                 boolean[][] temp = p.getLegal(game.getBoard());
                 for(int r = 0; r < 8; r++){
                     for(int c = 0; c < 8; c++){
-                        if(temp[r][c]){
+                        if(temp[r][c] && attackedSquares[r][c]){
                             g.setColor(new Color(0, 0, 255));
                             g.drawOval(c * 100, r * 100, 100, 100);
                         }
