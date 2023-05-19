@@ -71,7 +71,6 @@ public class Game{
     public void move(int origX, int origY, int x1, int y1){
         int temp = board[origY][origX];
         if(((temp == wPAWN) && (y1 == 0) && (origY == 1)) || ((temp == bPAWN) && (y1 == 7) && (origY == 6))){ // CHECK FOR PROMOTION CONDITIONS
-            System.out.println("promotion");
             board[origY][origX] = EMPTY;
             if(temp == wPAWN){
                 board[y1][x1] = wQUEEN;
@@ -106,7 +105,6 @@ public class Game{
             int tempx = pieces.get(i).getX() / 100;
             int tempy = pieces.get(i).getY() / 100;
             if(tempx == x1 && tempy == y1 && !pieces.get(i).selected()){
-                System.out.println("piece taken");
                 pieces.remove(i);
                 break;
             }
@@ -164,7 +162,16 @@ public class Game{
         for(Piece p : pieces){
             p.setIfCanBlockCheck(false);
         }
-        if(pieceChecking.getType() == wKNIGHT || pieceChecking.getType() == bKNIGHT || pieceChecking.getType() == wPAWN || pieceChecking.getType() == bPAWN){
+        if(pieceChecking.getType() == wPAWN || pieceChecking.getType() == bPAWN){
+            for(Piece p : pieces){
+                boolean[][] legal = p.getLegal(board);
+                if(legal[row][col]){
+                    p.setIfCanBlockCheck(true); 
+                }
+            }
+            attackedSquares[row][col] = true;
+        }
+        else if(pieceChecking.getType() == wKNIGHT || pieceChecking.getType() == bKNIGHT){
             for(Piece p : pieces){
                 boolean[][] legal = p.getLegal(board);
                 if(legal[row][col]){
@@ -185,7 +192,6 @@ public class Game{
             }
             int rowDisp = (kingRow - row) / Math.abs(kingRow - row);
             int colDisp = (kingCol - col) / Math.abs(kingCol - col);
-            System.out.println(rowDisp + " " + colDisp);
             for(int i = 0; i < Math.abs(kingRow - row); i++){
                 for(Piece p : pieces){
                     if(p.getColor() != color){
@@ -276,7 +282,6 @@ public class Game{
             else{
                 int rowDisp = (kingRow - row) / Math.abs(kingRow - row);
                 int colDisp = (kingCol - col) / Math.abs(kingCol - col);
-                System.out.println(rowDisp + " " + colDisp);
                 for(int i = 0; i < Math.abs(kingRow - row); i++){
                     for(Piece p : pieces){
                         if(p.getColor() != color){
@@ -291,6 +296,49 @@ public class Game{
             }
         }
         return attackedSquares;
+    }
+
+    public static boolean moveCauseCheck(int origY, int origX, int y1, int x1, boolean color){
+        int[][] tempBoard = new int[8][8];
+        for(int r = 0; r < 8; r++){
+            for(int c = 0; c < 8; c++){
+                tempBoard[r][c] = board[r][c];
+            }
+        }
+        int temp = tempBoard[origY][origX];
+        tempBoard[origY][origX] = EMPTY;
+        tempBoard[y1][x1] = temp;
+        System.out.println("test");
+        return checked2(!color, tempBoard);
+    }
+
+    public static boolean checked2(boolean color , int[][] tempBoard){ //color passed in is the piece's color
+        boolean[][] enemySpace = getEnemySpace2(color, tempBoard);
+        for(int r = 0; r < 8; r++){
+            for(int c = 0; c < 8; c++){
+                if((color && tempBoard[r][c] == wKING && enemySpace[r][c]) || (!color && tempBoard[r][c] == bKING && enemySpace[r][c])){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean[][] getEnemySpace2(boolean color , int[][]tempBoard){ // color passed in is the piece's color
+        boolean[][] enemySpace = new boolean[8][8];
+        for(Piece p : pieces){
+            if(p.getColor() != color){
+                boolean[][] enemyLegal = p.getLegal2(tempBoard);
+                for(int r = 0; r < 8; r++){
+                    for(int c = 0; c < 8; c++){
+                        if(enemyLegal[r][c]){
+                            enemySpace[r][c] = true;
+                        }
+                    }
+                } 
+            }
+        }
+        return enemySpace;
     }
 
     public Piece selected(int x, int y){

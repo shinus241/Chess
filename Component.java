@@ -54,7 +54,6 @@ public class Component extends JComponent{
                                     int origX = p.getX();
                                     int origY = p.getY();
                                     p.setPosition(x * 100, y * 100);
-                                    System.out.println(x + " " + y);
                                     pieceCurrentlySelected = false;
                                     game.move(origX / 100, origY / 100, x, y);
                                     p.set(false);
@@ -70,15 +69,13 @@ public class Component extends JComponent{
                     }
                     else{ //WHAT HAPPENS WHEN A PIECE IS SELECTED
                         if(game.checked(turn % 2 == 0)){
-                            System.out.println("this color is in check");
                             Piece pieceThatIsChecking = game.getEnemyChecking(turn % 2 == 0);
-                            System.out.println(pieceThatIsChecking.getType());
                             //find if you can block the check or if you have to move the king
                             //write a getPiecesThatCanBlockCheck method
                             attackedSquares = game.setPiecesThatCanBlockCheck(pieceThatIsChecking);
                             Piece selected = game.selected(mouseX, mouseY);
                             if(selected != null && ((selected.getColor() && turn % 2 == 0 )||(!selected.getColor() && turn % 2 != 0))){
-                                if(selected.canBlockCheck()){
+                                if(selected.canBlockCheck() || ((selected.getType() == Game.wKING && selected.getColor()) || (selected.getType() == Game.bKING && !selected.getColor()))){
                                     selected.set(true);
                                     pieceCurrentlySelected = true;
                                 }
@@ -127,7 +124,11 @@ public class Component extends JComponent{
                 boolean[][] temp = p.getLegal(game.getBoard());
                 for(int r = 0; r < 8; r++){
                     for(int c = 0; c < 8; c++){
-                        if(temp[r][c] && attackedSquares[r][c]){
+                        if(temp[r][c] && (p.getType() == Game.wKING || p.getType() == Game.bKING)){
+                            g.setColor(new Color(0, 0, 255));
+                            g.drawOval(c * 100, r * 100, 100, 100);
+                        }
+                        else if(temp[r][c] && attackedSquares[r][c]){
                             g.setColor(new Color(0, 0, 255));
                             g.drawOval(c * 100, r * 100, 100, 100);
                         }

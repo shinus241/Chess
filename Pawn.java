@@ -16,70 +16,70 @@ public class Pawn extends Piece{
         if(getColor()){ // white
             if(row == 6){
                 if(col == 0){
-                    if(board[row - 2][col] == Game.EMPTY && board[row - 1][col] == Game.EMPTY){
+                    if(board[row - 2][col] == Game.EMPTY && board[row - 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row - 2, col, getColor())){
                         legal[row - 2][col] = true;
                         legal[row - 1][col] = true;
                     }
-                    else if(board[row - 1][col] == Game.EMPTY){
+                    else if(board[row - 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row - 1, col, getColor())){
                         legal[row - 1][col] = true;
                     }
-                    if(board[row - 1][col + 1] > Game.wKING){
+                    if(board[row - 1][col + 1] > Game.wKING && !Game.moveCauseCheck(row, col, row - 1, col + 1, getColor())){
                         legal[row - 1][col + 1] = true;
                     }
                 }
                 else if(col == 7){
-                    if(board[row - 2][col] == Game.EMPTY && board[row - 1][col] == Game.EMPTY){
+                    if(board[row - 2][col] == Game.EMPTY && board[row - 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row - 2, col, getColor())){
                         legal[row - 2][col] = true;
                         legal[row - 1][col] = true;
                     }
-                    else if(board[row - 1][col] == Game.EMPTY){
+                    else if(board[row - 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row - 1, col, getColor())){
                         legal[row - 1][col] = true;
                     }
-                    if(board[row - 1][col - 1] > Game.wKING){
+                    if(board[row - 1][col - 1] > Game.wKING && !Game.moveCauseCheck(row, col, row - 1, col - 1, getColor())){
                         legal[row - 1][col - 1] = true;
                     }
                 }
                 else{
-                    if(board[row - 2][col] == Game.EMPTY && board[row - 1][col] == Game.EMPTY){
+                    if(board[row - 2][col] == Game.EMPTY && board[row - 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row - 2, col, getColor())){
                         legal[row - 2][col] = true;
                         legal[row - 1][col] = true;
                     }
-                    else if(board[row - 1][col] == Game.EMPTY){
+                    else if(board[row - 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row - 1, col, getColor())){
                         legal[row - 1][col] = true;
                     }
-                    if(board[row - 1][col + 1] > Game.wKING){
+                    if(board[row - 1][col + 1] > Game.wKING && !Game.moveCauseCheck(row, col, row - 1, col + 1, getColor())){
                         legal[row - 1][col + 1] = true;
                     }
-                    if(board[row - 1][col - 1] > Game.wKING){
+                    if(board[row - 1][col - 1] > Game.wKING && !Game.moveCauseCheck(row, col, row - 1, col - 1, getColor())){
                         legal[row - 1][col - 1] = true;
                     }
                 }
             }
             else if(row > 0){
                 if(col == 0){
-                    if(board[row - 1][col] == Game.EMPTY){
+                    if(board[row - 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row - 1, col, getColor())){
                         legal[row - 1][col] = true;
                     }
-                    if(board[row - 1][col + 1] > Game.wKING){
+                    if(board[row - 1][col + 1] > Game.wKING && !Game.moveCauseCheck(row, col, row - 1, col + 1, getColor())){
                         legal[row - 1][col + 1] = true;
                     }
                 }
                 else if(col == 7){
-                    if(board[row - 1][col] == Game.EMPTY){
+                    if(board[row - 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row - 1, col, getColor())){
                         legal[row - 1][col] = true;
                     }
-                    if(board[row - 1][col - 1] > Game.wKING){
+                    if(board[row - 1][col - 1] > Game.wKING && !Game.moveCauseCheck(row, col, row - 1, col - 1, getColor())){
                         legal[row - 1][col - 1] = true;
                     }
                 }
                 else{
-                    if(board[row - 1][col] == Game.EMPTY){
+                    if(board[row - 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row - 1, col, getColor())){
                         legal[row - 1][col] = true;
                     }
-                    if(board[row - 1][col + 1] > Game.wKING){
+                    if(board[row - 1][col + 1] > Game.wKING && !Game.moveCauseCheck(row, col, row - 1, col + 1, getColor())){
                         legal[row - 1][col + 1] = true;
                     }
-                    if(board[row - 1][col - 1] > Game.wKING){
+                    if(board[row - 1][col - 1] > Game.wKING && !Game.moveCauseCheck(row, col, row - 1, col - 1, getColor())){
                         legal[row - 1][col - 1] = true;
                     }
                 }
@@ -88,70 +88,70 @@ public class Pawn extends Piece{
         else{ // black
             if(row == 1){
                 if(col == 0){
-                    if(board[row + 2][col] == Game.EMPTY && board[row + 1][col] == Game.EMPTY){
+                    if(board[row + 2][col] == Game.EMPTY && board[row + 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row + 2, col, getColor())){
                         legal[row + 2][col] = true;
                         legal[row + 1][col] = true;
                     }
-                    else if(board[row + 1][col] == Game.EMPTY){
+                    else if(board[row + 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col, getColor())){
                         legal[row + 1][col] = true;
                     }
-                    if(board[row + 1][col + 1] < Game.bPAWN && board[row + 1][col + 1] != Game.EMPTY){
+                    if(board[row + 1][col + 1] < Game.bPAWN && board[row + 1][col + 1] != Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col + 1, getColor())){
                         legal[row + 1][col + 1] = true;
                     }
                 }
                 else if(col == 7){
-                    if(board[row + 2][col] == Game.EMPTY && board[row + 1][col] == Game.EMPTY){
+                    if(board[row + 2][col] == Game.EMPTY && board[row + 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row + 2, col, getColor())){
                         legal[row + 2][col] = true;
                         legal[row + 1][col] = true;
                     }
-                    else if(board[row + 1][col] == Game.EMPTY){
+                    else if(board[row + 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col, getColor())){
                         legal[row + 1][col] = true;
                     }
-                    if(board[row + 1][col - 1] < Game.bPAWN && board[row + 1][col - 1] != Game.EMPTY){
+                    if(board[row + 1][col - 1] < Game.bPAWN && board[row + 1][col - 1] != Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col - 1, getColor())){
                         legal[row + 1][col - 1] = true;
                     }
                 }
                 else{
-                    if(board[row + 2][col] == Game.EMPTY && board[row + 1][col] == Game.EMPTY){
+                    if(board[row + 2][col] == Game.EMPTY && board[row + 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row + 2, col, getColor())){
                         legal[row + 2][col] = true;
                         legal[row + 1][col] = true;
                     }
-                    else if(board[row + 1][col] == Game.EMPTY){
+                    else if(board[row + 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col, getColor())){
                         legal[row + 1][col] = true;
                     }
-                    if(board[row + 1][col + 1] < Game.bPAWN && board[row + 1][col + 1] != Game.EMPTY){
+                    if(board[row + 1][col + 1] < Game.bPAWN && board[row + 1][col + 1] != Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col + 1, getColor())){
                         legal[row + 1][col + 1] = true;
                     }
-                    if(board[row + 1][col - 1] < Game.bPAWN && board[row + 1][col - 1] != Game.EMPTY){
+                    if(board[row + 1][col - 1] < Game.bPAWN && board[row + 1][col - 1] != Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col - 1, getColor())){
                         legal[row + 1][col - 1] = true;
                     }
                 }
             }
             else if(row < 7){
                 if(col == 0){
-                    if(board[row + 1][col] == Game.EMPTY){
+                    if(board[row + 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col, getColor())){
                         legal[row + 1][col] = true;
                     }
-                    if(board[row + 1][col + 1] < Game.bPAWN && board[row + 1][col + 1] != Game.EMPTY){
+                    if(board[row + 1][col + 1] < Game.bPAWN && board[row + 1][col + 1] != Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col + 1, getColor())){
                         legal[row + 1][col + 1] = true;
                     }
                 }
                 else if(col == 7){
-                    if(board[row + 1][col] == Game.EMPTY){
+                    if(board[row + 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col, getColor())){
                         legal[row + 1][col] = true;
                     }
-                    if(board[row + 1][col - 1] < Game.bPAWN && board[row + 1][col - 1] != Game.EMPTY){
+                    if(board[row + 1][col - 1] < Game.bPAWN && board[row + 1][col - 1] != Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col - 1, getColor())){
                         legal[row + 1][col - 1] = true;
                     }
                 }
                 else{
-                    if(board[row + 1][col] == Game.EMPTY){
+                    if(board[row + 1][col] == Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col, getColor())){
                         legal[row + 1][col] = true;
                     }
-                    if(board[row + 1][col + 1] < Game.bPAWN && board[row + 1][col + 1] != Game.EMPTY){
+                    if(board[row + 1][col + 1] < Game.bPAWN && board[row + 1][col + 1] != Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col + 1, getColor())){
                         legal[row + 1][col + 1] = true;
                     }
-                    if(board[row + 1][col - 1] < Game.bPAWN && board[row + 1][col - 1] != Game.EMPTY){
+                    if(board[row + 1][col - 1] < Game.bPAWN && board[row + 1][col - 1] != Game.EMPTY && !Game.moveCauseCheck(row, col, row + 1, col - 1, getColor())){
                         legal[row + 1][col - 1] = true;
                     }
                 }
