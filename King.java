@@ -1,8 +1,13 @@
 import java.awt.*;
 import java.lang.Math;
+import java.util.ArrayList;
 public class King extends Piece{
-    public King(int x, int y, int w, int h, boolean c){
+    
+    private ArrayList<Piece> pieces; 
+
+    public King(int x, int y, int w, int h, boolean c, ArrayList<Piece> p){
         super(x, y, w, h, c); 
+        pieces = p;
     }
 
     public boolean[][] getLegal(int[][] board){
@@ -13,11 +18,24 @@ public class King extends Piece{
             for(int c = 0; c < 8; c++){
                 int rowDisp = Math.abs(row - r);
                 int colDisp = Math.abs(col -c);
-                if(((rowDisp == 1 && colDisp < 2) || (colDisp == 1 && rowDisp < 2)) && !(row == r && col == c)){
+                if(((rowDisp == 1 && colDisp < 2) || (colDisp == 1 && rowDisp < 2)) && !(row == r && col == c) && !Game.moveCauseCheck(row, col, r, c, getColor())){
                     legal[r][c] = true;
                 }
                 else{
                     legal[r][c] = false;
+                }
+            }
+        }
+        for(int r = 0; r < 8; r++){
+            for(int c = 0; c < 8; c++){
+                if(legal[r][c]){
+                    for(int i = 0; i < pieces.size(); i++){
+                        int otherRow = pieces.get(i).getY() / 100;
+                        int otherCol = pieces.get(i).getX() / 100;
+                        if(otherRow == r && otherCol == c && pieces.get(i).isProtected()){
+                            legal[r][c] = false;
+                        }
+                    }
                 }
             }
         }
@@ -50,19 +68,14 @@ public class King extends Piece{
                 }
             }
         }
-        for(int r = 0; r < 8; r++){
-            for(int c = 0; c < 8; c++){
-                if(legal[r][c] && board[r][c] != Game.EMPTY){
-                    if(((getColor() && board[r][c] < Game.bPAWN) || (!getColor() && board[r][c] > Game.wKING))){
-                        legal[r][c] = false;
-                    }
-                }
-            }
-        }
         return legal;
     }
 
     public boolean isChecking(int[][] b){
+        return false;
+    }
+
+    public boolean isProtected(){
         return false;
     }
  

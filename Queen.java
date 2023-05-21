@@ -12,7 +12,7 @@ public class Queen extends Piece{
             for(int c = 0; c < 8; c++){
                 int rowDisp = Math.abs(row - r);
                 int colDisp = Math.abs(col - c);
-                if((r == row || c == col || rowDisp == colDisp) && !(r == row && c == col)){
+                if((r == row || c == col || rowDisp == colDisp) && !(r == row && c == col) && !Game.moveCauseCheck(row, col, r, c, getColor())){
                     legal[r][c] = true;
                 }
                 else{
@@ -340,6 +340,13 @@ public class Queen extends Piece{
             }
         }
         return false;
+    }
+
+    public boolean isProtected(){
+        int row = getY() / 100;
+        int col = getX() / 100;
+        boolean[][] space = Game.getSpace(getColor());
+        return space[row][col];
     }
  
     public Image getImage() {

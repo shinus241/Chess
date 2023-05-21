@@ -113,9 +113,9 @@ public class Game{
 
     public static boolean[][] getEnemySpace(boolean color){ // color passed in is the piece's color
         boolean[][] enemySpace = new boolean[8][8];
-        for(Piece p : pieces){
-            if(p.getColor() != color){
-                boolean[][] enemyLegal = p.getLegal2(board);
+        for(int i = 0; i < pieces.size(); i++){
+            if(pieces.get(i).getColor() != color){
+                boolean[][] enemyLegal = pieces.get(i).getLegal2(board);
                 for(int r = 0; r < 8; r++){
                     for(int c = 0; c < 8; c++){
                         if(enemyLegal[r][c]){
@@ -128,7 +128,7 @@ public class Game{
         return enemySpace;
     }
 
-    public boolean checked(boolean color){ //color passed in is the piece's color
+    public static boolean checked(boolean color){ //color passed in is the piece's color
         boolean[][] enemySpace = getEnemySpace(color);
         for(int r = 0; r < 8; r++){
             for(int c = 0; c < 8; c++){
@@ -140,16 +140,16 @@ public class Game{
         return false;
     }
 
-    public Piece getEnemyChecking(boolean color){ // Color that the piece is
-        for(Piece p : pieces){
-            if(p.isChecking(board) && (p.getColor() != color)){
-                return p;
+    public static Piece getEnemyChecking(boolean color){ // Color that the piece is
+        for(int i = 0; i < pieces.size(); i++){
+            if(pieces.get(i).isChecking(board) && (pieces.get(i).getColor() != color)){
+                return pieces.get(i);
             }
         }
         return null;
     }
 
-    public boolean[][] setPiecesThatCanBlockCheck(Piece pieceChecking){
+    public static boolean[][] setPiecesThatCanBlockCheck(Piece pieceChecking){
         boolean[][] attackedSquares = new boolean[8][8];
         for(int r = 0; r < 8; r++){
             for(int c = 0; c < 8; c++){
@@ -159,23 +159,23 @@ public class Game{
         int row = pieceChecking.getY() / 100;
         int col = pieceChecking.getX() / 100;
         boolean color = pieceChecking.getColor();
-        for(Piece p : pieces){
-            p.setIfCanBlockCheck(false);
+        for(int i = 0; i < pieces.size(); i++){
+            pieces.get(i).setIfCanBlockCheck(false);
         }
         if(pieceChecking.getType() == wPAWN || pieceChecking.getType() == bPAWN){
-            for(Piece p : pieces){
-                boolean[][] legal = p.getLegal(board);
+            for(int i = 0; i < pieces.size(); i++){
+                boolean[][] legal = pieces.get(i).getLegal(board);
                 if(legal[row][col]){
-                    p.setIfCanBlockCheck(true); 
+                    pieces.get(i).setIfCanBlockCheck(true); 
                 }
             }
             attackedSquares[row][col] = true;
         }
         else if(pieceChecking.getType() == wKNIGHT || pieceChecking.getType() == bKNIGHT){
-            for(Piece p : pieces){
-                boolean[][] legal = p.getLegal(board);
+            for(int i = 0; i < pieces.size(); i++){
+                boolean[][] legal = pieces.get(i).getLegal(board);
                 if(legal[row][col]){
-                    p.setIfCanBlockCheck(true); 
+                    pieces.get(i).setIfCanBlockCheck(true); 
                 }
             }
             attackedSquares[row][col] = true;
@@ -184,20 +184,20 @@ public class Game{
             //first chunk to get position of king
             int kingRow = 0;
             int kingCol = 0;
-            for(Piece p : pieces){
-                if((p.getColor() != color) && (p.getType() == wKING || p.getType() == bKING)){
-                    kingCol = p.getX() / 100;
-                    kingRow = p.getY() / 100;
+            for(int i = 0; i < pieces.size(); i++){
+                if((pieces.get(i).getColor() != color) && (pieces.get(i).getType() == wKING || pieces.get(i).getType() == bKING)){
+                    kingCol = pieces.get(i).getX() / 100;
+                    kingRow = pieces.get(i).getY() / 100;
                 }
             }
             int rowDisp = (kingRow - row) / Math.abs(kingRow - row);
             int colDisp = (kingCol - col) / Math.abs(kingCol - col);
             for(int i = 0; i < Math.abs(kingRow - row); i++){
-                for(Piece p : pieces){
-                    if(p.getColor() != color){
-                        boolean[][] legal = p.getLegal(board);
-                        if(legal[row + rowDisp * i][col + colDisp * i] && (p.getType() != wKING && p.getType() != bKING)){
-                            p.setIfCanBlockCheck(true);
+                for(int j = 0; j < pieces.size(); j++){ // JJJJJJJJJJJJJJJJJJJJJJJJJJJJJ
+                    if(pieces.get(j).getColor() != color){
+                        boolean[][] legal = pieces.get(j).getLegal(board);
+                        if(legal[row + rowDisp * i][col + colDisp * i] && (pieces.get(j).getType() != wKING && pieces.get(j).getType() != bKING)){
+                            pieces.get(j).setIfCanBlockCheck(true);
                         }
                     }
                 }
@@ -207,20 +207,20 @@ public class Game{
         else if(pieceChecking.getType() == wROOK || pieceChecking.getType() == bROOK){
             int kingRow = 0;
             int kingCol = 0;
-            for(Piece p : pieces){
-                if((p.getColor() != color) && (p.getType() == wKING || p.getType() == bKING)){
-                    kingCol = p.getX() / 100;
-                    kingRow = p.getY() / 100;
+            for(int i = 0; i < pieces.size(); i++){
+                if((pieces.get(i).getColor() != color) && (pieces.get(i).getType() == wKING || pieces.get(i).getType() == bKING)){
+                    kingCol = pieces.get(i).getX() / 100;
+                    kingRow = pieces.get(i).getY() / 100;
                 }
             }
             if(col == kingCol){
                 int rowDisp = (kingRow - row) / Math.abs(kingRow - row);
                 for(int i = 0; i < Math.abs(kingRow - row); i++){
-                    for(Piece p : pieces){
-                        if(p.getColor() != color){
-                            boolean[][] legal = p.getLegal(board);
-                            if(legal[row + rowDisp * i][col] && (p.getType() != wKING && p.getType() != bKING)){
-                                p.setIfCanBlockCheck(true);
+                    for(int j = 0; j < pieces.size(); j++){ //JJJJJJJJJJJJJJJJJJJJJJJJJ
+                        if(pieces.get(j).getColor() != color){
+                            boolean[][] legal = pieces.get(j).getLegal(board);
+                            if(legal[row + rowDisp * i][col] && (pieces.get(j).getType() != wKING && pieces.get(j).getType() != bKING)){
+                                pieces.get(j).setIfCanBlockCheck(true);
                             }
                         }
                     }
@@ -230,11 +230,11 @@ public class Game{
             else{
                 int colDisp = (kingCol - col) / Math.abs(kingCol - col);
                 for(int i = 0; i < Math.abs(kingCol - col); i++){
-                    for(Piece p : pieces){
-                        if(p.getColor() != color){
-                            boolean[][] legal = p.getLegal(board);
-                            if(legal[row][col + colDisp * i] && (p.getType() != wKING && p.getType() != bKING)){
-                                p.setIfCanBlockCheck(true);
+                    for(int j = 0; j < pieces.size(); j++){ //JJJJJJJJJJJJJJJJJJJJJJJJJJ
+                        if(pieces.get(j).getColor() != color){
+                            boolean[][] legal = pieces.get(j).getLegal(board);
+                            if(legal[row][col + colDisp * i] && (pieces.get(j).getType() != wKING && pieces.get(j).getType() != bKING)){
+                                pieces.get(j).setIfCanBlockCheck(true);
                             }
                         }
                     }
@@ -245,20 +245,20 @@ public class Game{
         else if(pieceChecking.getType() == wQUEEN || pieceChecking.getType() == bQUEEN){
             int kingRow = 0;
             int kingCol = 0;
-            for(Piece p : pieces){
-                if((p.getColor() != color) && (p.getType() == wKING || p.getType() == bKING)){
-                    kingCol = p.getX() / 100;
-                    kingRow = p.getY() / 100;
+            for(int i = 0; i < pieces.size(); i++){
+                if((pieces.get(i).getColor() != color) && (pieces.get(i).getType() == wKING || pieces.get(i).getType() == bKING)){
+                    kingCol = pieces.get(i).getX() / 100;
+                    kingRow = pieces.get(i).getY() / 100;
                 }
             }
             if(col == kingCol){
                 int rowDisp = (kingRow - row) / Math.abs(kingRow - row);
                 for(int i = 0; i < Math.abs(kingRow - row); i++){
-                    for(Piece p : pieces){
-                        if(p.getColor() != color){
-                            boolean[][] legal = p.getLegal(board);
-                            if(legal[row + rowDisp * i][col] && (p.getType() != wKING && p.getType() != bKING)){
-                                p.setIfCanBlockCheck(true);
+                    for(int j = 0; j < pieces.size(); j++){ //JJJJJJJJJJJJJJJJJJJJJJJJJJ
+                        if(pieces.get(j).getColor() != color){
+                            boolean[][] legal = pieces.get(j).getLegal(board);
+                            if(legal[row + rowDisp * i][col] && (pieces.get(j).getType() != wKING && pieces.get(j).getType() != bKING)){
+                                pieces.get(j).setIfCanBlockCheck(true);
                             }
                         }
                     }
@@ -268,11 +268,11 @@ public class Game{
             else if(row == kingRow){
                 int colDisp = (kingCol - col) / Math.abs(kingCol - col);
                 for(int i = 0; i < Math.abs(kingCol - col); i++){
-                    for(Piece p : pieces){
-                        if(p.getColor() != color){
-                            boolean[][] legal = p.getLegal(board);
-                            if(legal[row][col + colDisp * i] && (p.getType() != wKING && p.getType() != bKING)){
-                                p.setIfCanBlockCheck(true);
+                    for(int j = 0; j < pieces.size(); j++){ //JJJJJJJJJJJJJJJJJJJJJJJJJJJJ
+                        if(pieces.get(j).getColor() != color){
+                            boolean[][] legal = pieces.get(j).getLegal(board);
+                            if(legal[row][col + colDisp * i] && (pieces.get(j).getType() != wKING && pieces.get(j).getType() != bKING)){
+                                pieces.get(j).setIfCanBlockCheck(true);
                             }
                         }
                     }
@@ -283,11 +283,11 @@ public class Game{
                 int rowDisp = (kingRow - row) / Math.abs(kingRow - row);
                 int colDisp = (kingCol - col) / Math.abs(kingCol - col);
                 for(int i = 0; i < Math.abs(kingRow - row); i++){
-                    for(Piece p : pieces){
-                        if(p.getColor() != color){
-                            boolean[][] legal = p.getLegal(board);
-                            if(legal[row + rowDisp * i][col + colDisp * i] && (p.getType() != wKING && p.getType() != bKING)){
-                                p.setIfCanBlockCheck(true);
+                    for(int j = 0; j < pieces.size(); j++){ // JJJJJJJJJJJJJJJJJJJJJJ
+                        if(pieces.get(j).getColor() != color){
+                            boolean[][] legal = pieces.get(j).getLegal(board);
+                            if(legal[row + rowDisp * i][col + colDisp * i] && (pieces.get(j).getType() != wKING && pieces.get(j).getType() != bKING)){
+                                pieces.get(j).setIfCanBlockCheck(true);
                             }
                         }
                     }
@@ -305,15 +305,26 @@ public class Game{
                 tempBoard[r][c] = board[r][c];
             }
         }
+        ArrayList<Piece> tempPieces = new ArrayList<Piece>();
+        for(int i = 0; i < pieces.size(); i++){
+            tempPieces.add(pieces.get(i));
+        }
         int temp = tempBoard[origY][origX];
         tempBoard[origY][origX] = EMPTY;
         tempBoard[y1][x1] = temp;
-        System.out.println("test");
-        return checked2(!color, tempBoard);
+        for(int i = 0; i < tempPieces.size(); i++){
+            int tempx = tempPieces.get(i).getX() / 100;
+            int tempy = tempPieces.get(i).getY() / 100;
+            if(tempx == x1 && tempy == y1 && !pieces.get(i).selected()){
+                tempPieces.remove(i);
+                break;
+            }
+        }
+        return checked2(color, tempBoard, tempPieces);
     }
 
-    public static boolean checked2(boolean color , int[][] tempBoard){ //color passed in is the piece's color
-        boolean[][] enemySpace = getEnemySpace2(color, tempBoard);
+    public static boolean checked2(boolean color , int[][] tempBoard, ArrayList<Piece> tempPieces){ //color passed in is the piece's color
+        boolean[][] enemySpace = getEnemySpace2(color, tempBoard, tempPieces);
         for(int r = 0; r < 8; r++){
             for(int c = 0; c < 8; c++){
                 if((color && tempBoard[r][c] == wKING && enemySpace[r][c]) || (!color && tempBoard[r][c] == bKING && enemySpace[r][c])){
@@ -324,9 +335,9 @@ public class Game{
         return false;
     }
 
-    public static boolean[][] getEnemySpace2(boolean color , int[][]tempBoard){ // color passed in is the piece's color
+    public static boolean[][] getEnemySpace2(boolean color , int[][]tempBoard, ArrayList<Piece> tempPieces){ // color passed in is the piece's color
         boolean[][] enemySpace = new boolean[8][8];
-        for(Piece p : pieces){
+        for(Piece p : tempPieces){
             if(p.getColor() != color){
                 boolean[][] enemyLegal = p.getLegal2(tempBoard);
                 for(int r = 0; r < 8; r++){
@@ -341,10 +352,76 @@ public class Game{
         return enemySpace;
     }
 
+    public static boolean[][] getSpace(boolean color){
+        boolean[][] space = new boolean[8][8];
+        for(int i = 0; i < pieces.size(); i++){
+            if(pieces.get(i).getColor() == color){
+                boolean[][] legal = pieces.get(i).getLegal2(board);
+                for(int r = 0; r < 8; r++){
+                    for(int c = 0; c < 8; c++){
+                        if(legal[r][c]){
+                            space[r][c] = true;
+                        }
+                    }
+                }
+            }
+        }
+        return space;
+    }
+
+    public static boolean[][] getSpace2(boolean color){
+        boolean[][] space = new boolean[8][8];
+        for(int i = 0; i < pieces.size(); i++){
+            if(pieces.get(i).getColor() == color && (pieces.get(i).getType() != wKING && pieces.get(i).getType() != bKING)){
+                boolean[][] legal = pieces.get(i).getLegal2(board);
+                for(int r = 0; r < 8; r++){
+                    for(int c = 0; c < 8; c++){
+                        if(legal[r][c]){
+                            space[r][c] = true;
+                        }
+                    }
+                }
+            }
+        }
+        return space;
+    }
+
+    public static boolean checkmate(boolean color1){
+        for(int i = 0; i < pieces.size(); i++){
+            if(((pieces.get(i).getType() == wKING) && color1) || ((pieces.get(i).getType() == bKING)) && !color1){
+                boolean[][] legal = pieces.get(i).getLegal(board);
+                boolean color = pieces.get(i).getColor();
+                if(checked(color)){
+                    Piece p = getEnemyChecking(color);
+                    boolean[][] attackedSquares = Game.setPiecesThatCanBlockCheck(p);
+                    int row = p.getY() / 100;
+                    int col = p.getX() / 100;
+                    boolean[][] space = getSpace2(color);
+                    int numLegalMoves = 0;
+                    for(int r = 0; r < 8; r++){
+                        for(int c = 0; c < 8; c++){
+                            if(legal[r][c]){
+                                numLegalMoves++;
+                            }
+                        }
+                    }
+                    for(int j = 0; j < pieces.size(); j++){
+                        if(pieces.get(j).canBlockCheck() && pieces.get(j).getColor() == color){
+                            System.out.println(pieces.get(j).getType());
+                            return false;
+                        }
+                    }
+                    return numLegalMoves == 0 && !space[row][col] && checked(color);
+                }
+            }
+        }
+        return false;
+    }
+
     public Piece selected(int x, int y){
-        for(Piece p : pieces){
-            if(p.intersects(x, y)){
-                return p;
+        for(int i = 0; i < pieces.size(); i++){
+            if(pieces.get(i).intersects(x, y)){
+                return pieces.get(i);
             }
         }
         return null;

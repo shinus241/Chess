@@ -19,6 +19,8 @@ public abstract class Piece {
 
     public abstract boolean isChecking(int[][] b);
 
+    public abstract boolean isProtected();
+
     public boolean canBlockCheck(){
         return canBlockCheck;
     }
@@ -50,7 +52,6 @@ public abstract class Piece {
     public void setPosition(int x1, int y1){
         x = x1;
         y = y1;
-        System.out.println("set position test: " + x + " " + y);
     }
 
     public boolean getColor(){

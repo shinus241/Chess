@@ -13,7 +13,7 @@ public class Bishop extends Piece{
             for(int c = 0; c < 8; c++){
                 int rowDisp = Math.abs(row - r);
                 int colDisp = Math.abs(col - c);
-                if(rowDisp == colDisp && col != c){
+                if(rowDisp == colDisp && col != c && !Game.moveCauseCheck(row, col, r, c, getColor())){
                     legal[r][c] = true;
                 }
                 else{
@@ -116,9 +116,9 @@ public class Bishop extends Piece{
         boolean blocked = false;
         while(row + disp < 8 && col + disp < 8){
             if(board[row + disp][col + disp] != Game.EMPTY && !blocked){
-                if((getColor() && board[row + disp][col + disp] <= Game.wKING) || (!getColor() && board[row + disp][col + disp] > Game.wKING)){
-                    legal[row + disp][col + disp] = false;
-                }
+                //if((getColor() && board[row + disp][col + disp] <= Game.wKING) || (!getColor() && board[row + disp][col + disp] > Game.wKING)){
+                    //legal[row + disp][col + disp] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -134,9 +134,9 @@ public class Bishop extends Piece{
         blocked = false;
         while(row - disp >= 0 && col - disp >= 0){
             if(board[row - disp][col - disp] != Game.EMPTY && !blocked){
-                if((getColor() && board[row - disp][col - disp] <= Game.wKING) || (!getColor() && board[row - disp][col - disp] > Game.wKING)){
-                    legal[row - disp][col - disp] = false;
-                }
+                //if((getColor() && board[row - disp][col - disp] <= Game.wKING) || (!getColor() && board[row - disp][col - disp] > Game.wKING)){
+                    //legal[row - disp][col - disp] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -152,9 +152,9 @@ public class Bishop extends Piece{
         blocked = false;
         while(row - disp >= 0 && col + disp < 8){
             if(board[row - disp][col + disp] != Game.EMPTY && !blocked){
-                if((getColor() && board[row - disp][col + disp] <= Game.wKING) || (!getColor() && board[row - disp][col + disp] > Game.wKING)){
-                    legal[row - disp][col + disp] = false;
-                }
+                //if((getColor() && board[row - disp][col + disp] <= Game.wKING) || (!getColor() && board[row - disp][col + disp] > Game.wKING)){
+                    //legal[row - disp][col + disp] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -170,9 +170,9 @@ public class Bishop extends Piece{
         blocked = false;
         while(row + disp < 8 && col - disp >= 0){
             if(board[row + disp][col - disp] != Game.EMPTY && !blocked){
-                if((getColor() && board[row + disp][col - disp] <= Game.wKING) || (!getColor() && board[row + disp][col - disp] > Game.wKING)){
-                    legal[row + disp][col - disp] = false;
-                }
+                //if((getColor() && board[row + disp][col - disp] <= Game.wKING) || (!getColor() && board[row + disp][col - disp] > Game.wKING)){
+                    //legal[row + disp][col - disp] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -197,6 +197,13 @@ public class Bishop extends Piece{
             }
         }
         return false;
+    }
+
+    public boolean isProtected(){
+        int row = getY() / 100;
+        int col = getX() / 100;
+        boolean[][] space = Game.getSpace(getColor());
+        return space[row][col];
     }
  
     public Image getImage() {

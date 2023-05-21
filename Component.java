@@ -1,5 +1,6 @@
 import javax.swing.JFrame;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import java.awt.Graphics;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -34,8 +35,8 @@ public class Component extends JComponent{
                 pieces.add(new Bishop(i, 0, 100, 100, false));
             }
         }
-        pieces.add(new King(400, 700, 100, 100, true));
-        pieces.add(new King(400, 0, 100, 100, false));
+        pieces.add(new King(400, 700, 100, 100, true, pieces));
+        pieces.add(new King(400, 0, 100, 100, false, pieces));
         pieces.add(new Queen(300, 700, 100, 100, true));
         pieces.add(new Queen(300, 0, 100, 100, false));
         game = new Game(pieces);
@@ -106,6 +107,15 @@ public class Component extends JComponent{
         frame.setVisible(true);
         while(true){
             frame.repaint();
+            if(Game.checkmate(component.turn % 2 == 0)){
+                if(component.turn % 2 != 0){
+                    System.out.println("Checkmate, white wins!");
+                }
+                else{
+                    System.out.println("Checkmate, black wins!");
+                }
+                break;
+            }
         }
     }
     public void paintComponent(Graphics g){

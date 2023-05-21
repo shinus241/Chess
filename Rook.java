@@ -10,7 +10,7 @@ public class Rook extends Piece{
         int row = getY() / 100;
         for(int r = 0; r < 8; r++){
             for(int c = 0; c < 8; c++){
-                if((r == row || c == col) && !(r == row && c == col)){
+                if((r == row || c == col) && !(r == row && c == col) && !Game.moveCauseCheck(row, col, r, c, getColor())){
                     legal[r][c] = true;
                 }
                 else{
@@ -111,9 +111,9 @@ public class Rook extends Piece{
         boolean blocked = false;
         while(row + disp < 8){
             if(board[row + disp][col] != Game.EMPTY && !blocked){
-                if((getColor() && board[row + disp][col] <= Game.wKING) || (!getColor() && board[row + disp][col] > Game.wKING)){
-                    legal[row + disp][col] = false;
-                }
+                //if((getColor() && board[row + disp][col] <= Game.wKING) || (!getColor() && board[row + disp][col] > Game.wKING)){
+                    //legal[row + disp][col] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -129,9 +129,9 @@ public class Rook extends Piece{
         blocked = false;
         while(row - disp >= 0){
             if(board[row - disp][col] != Game.EMPTY && !blocked){
-                if((getColor() && board[row - disp][col] <= Game.wKING) || (!getColor() && board[row - disp][col] > Game.wKING)){
-                    legal[row - disp][col] = false;
-                }
+                //if((getColor() && board[row - disp][col] <= Game.wKING) || (!getColor() && board[row - disp][col] > Game.wKING)){
+                    //legal[row - disp][col] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -147,9 +147,9 @@ public class Rook extends Piece{
         blocked = false;
         while(col - disp >= 0){
             if(board[row][col - disp] != Game.EMPTY && !blocked){
-                if((getColor() && board[row][col - disp] <= Game.wKING) || (!getColor() && board[row][col - disp] > Game.wKING)){
-                    legal[row][col - disp] = false;
-                }
+                //if((getColor() && board[row][col - disp] <= Game.wKING) || (!getColor() && board[row][col - disp] > Game.wKING)){
+                    //legal[row][col - disp] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -165,9 +165,9 @@ public class Rook extends Piece{
         blocked = false;
         while(col + disp < 8){
             if(board[row][col + disp] != Game.EMPTY && !blocked){
-                if((getColor() && board[row][col + disp] <= Game.wKING) || (!getColor() && board[row][col + disp] > Game.wKING)){
-                    legal[row][col + disp] = false;
-                }
+                //if((getColor() && board[row][col + disp] <= Game.wKING) || (!getColor() && board[row][col + disp] > Game.wKING)){
+                    //legal[row][col + disp] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -192,6 +192,13 @@ public class Rook extends Piece{
             }
         }
         return false;
+    }
+
+    public boolean isProtected(){
+        int row = getY() / 100;
+        int col = getX() / 100;
+        boolean[][] space = Game.getSpace(getColor());
+        return space[row][col];
     }
     
     public Image getImage() {

@@ -212,6 +212,13 @@ public class Pawn extends Piece{
         return false;
     }
 
+    public boolean isProtected(){
+        int row = getY() / 100;
+        int col = getX() / 100;
+        boolean[][] space = Game.getSpace(getColor());
+        return space[row][col];
+    }
+
     public Image getImage() {
         if(getColor()){
             return ImageLoader.loadCompatibleImage("whitePawn.png");

@@ -29,6 +29,9 @@ public class Knight extends Piece{
                         legal[r][c] = false;
                     }
                 }
+                if(legal[r][c] && Game.moveCauseCheck(row, col, r, c, getColor())){
+                    legal[r][c] = false;
+                }
             }
         }
         return legal;
@@ -51,15 +54,6 @@ public class Knight extends Piece{
                 }
             }
         }
-        for(int r = 0; r < 8; r++){
-            for(int c = 0; c < 8; c++){
-                if(legal[r][c] && board[r][c] != Game.EMPTY){
-                    if((getColor() && board[r][c] < Game.bPAWN) || (!getColor() && board[r][c] > Game.wKING)){
-                        legal[r][c] = false;
-                    }
-                }
-            }
-        }
         return legal;
     }
 
@@ -73,6 +67,13 @@ public class Knight extends Piece{
             }
         }
         return false;
+    }
+
+    public boolean isProtected(){
+        int row = getY() / 100;
+        int col = getX() / 100;
+        boolean[][] space = Game.getSpace(getColor());
+        return space[row][col];
     }
  
     public Image getImage() {
