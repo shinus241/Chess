@@ -6,6 +6,7 @@ public abstract class Piece {
     private int y;
     private boolean selected = false;
     private boolean canBlockCheck = false;
+    private boolean hasMoved = false;
     public Piece(int x1, int y1, int w, int h, boolean c){
         rect = new Rectangle(x1, y1, w, h);
         x = x1;
@@ -20,6 +21,10 @@ public abstract class Piece {
     public abstract boolean isChecking(int[][] b);
 
     public abstract boolean isProtected();
+
+    public boolean hasMoved(){
+        return hasMoved;
+    }
 
     public boolean canBlockCheck(){
         return canBlockCheck;
@@ -52,6 +57,7 @@ public abstract class Piece {
     public void setPosition(int x1, int y1){
         x = x1;
         y = y1;
+        hasMoved = true;
     }
 
     public boolean getColor(){

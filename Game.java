@@ -15,6 +15,7 @@ public class Game{
     public static final int bROOK = 10;
     public static final int bQUEEN = 11;
     public static final int bKING = 12;
+    private static boolean stop = false;
     
     public Game(ArrayList<Piece> p){
         pieces = p;
@@ -83,6 +84,14 @@ public class Game{
                         break;
                     }
                 }
+                for(int i = 0; i < pieces.size(); i++){
+                    int tempx = pieces.get(i).getX() / 100;
+                    int tempy = pieces.get(i).getY() / 100;
+                    if(tempx == x1 && tempy == y1 && !pieces.get(i).selected() && pieces.get(i).getType() != wQUEEN){
+                        pieces.remove(i);
+                        break;
+                    }
+                }
             }
             else{
                 board[y1][x1] = bQUEEN;
@@ -95,18 +104,98 @@ public class Game{
                         break;
                     }
                 }
+                for(int i = 0; i < pieces.size(); i++){
+                    int tempx = pieces.get(i).getX() / 100;
+                    int tempy = pieces.get(i).getY() / 100;
+                    if(tempx == x1 && tempy == y1 && !pieces.get(i).selected() && pieces.get(i).getType() != bQUEEN){
+                        pieces.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+        else if(temp == wKING || temp == bKING){
+            board[origY][origX] = EMPTY;
+            board[y1][x1] = temp;
+            if(temp == wKING && origY == 7 && origX == 4){
+                if(y1 == 7 && x1 == 6){
+                    for(int i = 0; i < pieces.size(); i++){
+                        int tempx = pieces.get(i).getX() / 100;
+                        int tempy = pieces.get(i).getY() / 100;
+                        if(tempx == 7 && tempy == 7){
+                            board[7][7] = EMPTY;
+                            board[7][5] = wROOK;
+                            pieces.get(i).setPosition(500, 700);
+                        }
+                    }
+                }
+                if(y1 == 7 && x1 == 2){
+                    for(int i = 0; i < pieces.size(); i++){
+                        int tempx = pieces.get(i).getX() / 100;
+                        int tempy = pieces.get(i).getY() / 100;
+                        if(tempx == 0 && tempy == 7){
+                            board[7][0] = EMPTY;
+                            board[7][3] = wROOK;
+                            pieces.get(i).setPosition(300, 700);
+                        }
+                    }
+                }
+                else{
+                    for(int i = 0; i < pieces.size(); i++){
+                        int tempx = pieces.get(i).getX() / 100;
+                        int tempy = pieces.get(i).getY() / 100;
+                        if(tempx == x1 && tempy == y1 && !pieces.get(i).selected()){
+                            pieces.remove(i);
+                            break;
+                        }
+                    }
+                }
+            }
+            else if(temp == bKING && origY == 0 && origX == 4){
+                if(y1 == 0 && x1 == 6){
+                    for(int i = 0; i < pieces.size(); i++){
+                        int tempx = pieces.get(i).getX() / 100;
+                        int tempy = pieces.get(i).getY() / 100;
+                        if(tempx == 7 && tempy == 0){
+                            board[0][7] = EMPTY;
+                            board[0][5] = bROOK;
+                            pieces.get(i).setPosition(500, 0);
+                        }
+                    }
+                }
+                if(y1 == 0 && x1 == 2){
+                    for(int i = 0; i < pieces.size(); i++){
+                        int tempx = pieces.get(i).getX() / 100;
+                        int tempy = pieces.get(i).getY() / 100;
+                        if(tempx == 0 && tempy == 0){
+                            board[0][0] = EMPTY;
+                            board[0][3] = bROOK;
+                            pieces.get(i).setPosition(300, 0);
+                        }
+                    }
+                }
+                else{
+                    for(int i = 0; i < pieces.size(); i++){
+                        int tempx = pieces.get(i).getX() / 100;
+                        int tempy = pieces.get(i).getY() / 100;
+                        if(tempx == x1 && tempy == y1 && !pieces.get(i).selected()){
+                            pieces.remove(i);
+                            break;
+                        }
+                    }
+                }
             }
         }
         else{
             board[origY][origX] = EMPTY;
             board[y1][x1] = temp;
-        }
-        for(int i = 0; i < pieces.size(); i++){
-            int tempx = pieces.get(i).getX() / 100;
-            int tempy = pieces.get(i).getY() / 100;
-            if(tempx == x1 && tempy == y1 && !pieces.get(i).selected()){
-                pieces.remove(i);
-                break;
+            for(int i = 0; i < pieces.size(); i++){
+                int tempx = pieces.get(i).getX() / 100;
+                int tempy = pieces.get(i).getY() / 100;
+                if(tempx == x1 && tempy == y1 && !pieces.get(i).selected()){
+                    pieces.remove(i);
+                    break;
+                }
             }
         }
     }
@@ -407,15 +496,40 @@ public class Game{
                     }
                     for(int j = 0; j < pieces.size(); j++){
                         if(pieces.get(j).canBlockCheck() && pieces.get(j).getColor() == color){
-                            System.out.println(pieces.get(j).getType());
                             return false;
                         }
+                    }
+                    if(numLegalMoves == 0 && !space[row][col] && checked(color)){
+                        stop = true;
                     }
                     return numLegalMoves == 0 && !space[row][col] && checked(color);
                 }
             }
         }
         return false;
+    }
+
+    public static boolean isStalemate(boolean color){
+        for(int i = 0; i < pieces.size(); i++){
+            if(pieces.get(i).getColor() == color){
+                boolean[][] legal = pieces.get(i).getLegal(board);
+                for(int r = 0; r < 8; r++){
+                    for(int c = 0; c < 8; c++){
+                        if(legal[r][c]){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        if(!checked(color)){
+            stop = true;
+        }
+        return !checked(color);
+    }
+
+    public static boolean stop(){
+        return stop;
     }
 
     public Piece selected(int x, int y){

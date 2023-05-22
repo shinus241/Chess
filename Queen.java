@@ -187,9 +187,9 @@ public class Queen extends Piece{
         boolean blocked = false;
         while(row + disp < 8){
             if(board[row + disp][col] != Game.EMPTY && !blocked){
-                if((getColor() && board[row + disp][col] <= Game.wKING) || (!getColor() && board[row + disp][col] > Game.wKING)){
-                    legal[row + disp][col] = false;
-                }
+                //if((getColor() && board[row + disp][col] <= Game.wKING) || (!getColor() && board[row + disp][col] > Game.wKING)){
+                    //legal[row + disp][col] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -205,9 +205,9 @@ public class Queen extends Piece{
         blocked = false;
         while(row - disp >= 0){
             if(board[row - disp][col] != Game.EMPTY && !blocked){
-                if((getColor() && board[row - disp][col] <= Game.wKING) || (!getColor() && board[row - disp][col] > Game.wKING)){
-                    legal[row - disp][col] = false;
-                }
+                //if((getColor() && board[row - disp][col] <= Game.wKING) || (!getColor() && board[row - disp][col] > Game.wKING)){
+                    //legal[row - disp][col] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -223,9 +223,9 @@ public class Queen extends Piece{
         blocked = false;
         while(col - disp >= 0){
             if(board[row][col - disp] != Game.EMPTY && !blocked){
-                if((getColor() && board[row][col - disp] <= Game.wKING) || (!getColor() && board[row][col - disp] > Game.wKING)){
-                    legal[row][col - disp] = false;
-                }
+                //if((getColor() && board[row][col - disp] <= Game.wKING) || (!getColor() && board[row][col - disp] > Game.wKING)){
+                    //legal[row][col - disp] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -241,9 +241,9 @@ public class Queen extends Piece{
         blocked = false;
         while(col + disp < 8){
             if(board[row][col + disp] != Game.EMPTY && !blocked){
-                if((getColor() && board[row][col + disp] <= Game.wKING) || (!getColor() && board[row][col + disp] > Game.wKING)){
-                    legal[row][col + disp] = false;
-                }
+                //if((getColor() && board[row][col + disp] <= Game.wKING) || (!getColor() && board[row][col + disp] > Game.wKING)){
+                    //legal[row][col + disp] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -259,9 +259,9 @@ public class Queen extends Piece{
         blocked = false;
         while(row + disp < 8 && col + disp < 8){
             if(board[row + disp][col + disp] != Game.EMPTY && !blocked){
-                if((getColor() && board[row + disp][col + disp] <= Game.wKING) || (!getColor() && board[row + disp][col + disp] > Game.wKING)){
-                    legal[row + disp][col + disp] = false;
-                }
+                //if((getColor() && board[row + disp][col + disp] <= Game.wKING) || (!getColor() && board[row + disp][col + disp] > Game.wKING)){
+                    //legal[row + disp][col + disp] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -277,9 +277,9 @@ public class Queen extends Piece{
         blocked = false;
         while(row - disp >= 0 && col - disp >= 0){
             if(board[row - disp][col - disp] != Game.EMPTY && !blocked){
-                if((getColor() && board[row - disp][col - disp] <= Game.wKING) || (!getColor() && board[row - disp][col - disp] > Game.wKING)){
-                    legal[row - disp][col - disp] = false;
-                }
+                //if((getColor() && board[row - disp][col - disp] <= Game.wKING) || (!getColor() && board[row - disp][col - disp] > Game.wKING)){
+                    //legal[row - disp][col - disp] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -295,9 +295,9 @@ public class Queen extends Piece{
         blocked = false;
         while(row - disp >= 0 && col + disp < 8){
             if(board[row - disp][col + disp] != Game.EMPTY && !blocked){
-                if((getColor() && board[row - disp][col + disp] <= Game.wKING) || (!getColor() && board[row - disp][col + disp] > Game.wKING)){
-                    legal[row - disp][col + disp] = false;
-                }
+                //if((getColor() && board[row - disp][col + disp] <= Game.wKING) || (!getColor() && board[row - disp][col + disp] > Game.wKING)){
+                    //legal[row - disp][col + disp] = false;
+                //}
                 blocked = true;
                 disp++;
             }
@@ -313,9 +313,9 @@ public class Queen extends Piece{
         blocked = false;
         while(row + disp < 8 && col - disp >= 0){
             if(board[row + disp][col - disp] != Game.EMPTY && !blocked){
-                if((getColor() && board[row + disp][col - disp] <= Game.wKING) || (!getColor() && board[row + disp][col - disp] > Game.wKING)){
-                    legal[row + disp][col - disp] = false;
-                }
+                //if((getColor() && board[row + disp][col - disp] <= Game.wKING) || (!getColor() && board[row + disp][col - disp] > Game.wKING)){
+                    //legal[row + disp][col - disp] = false;
+                //}
                 blocked = true;
                 disp++;
             }

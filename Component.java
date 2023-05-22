@@ -1,7 +1,8 @@
 import javax.swing.JFrame;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import java.awt.Graphics;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
@@ -95,6 +96,17 @@ public class Component extends JComponent{
                             }
                         }
                     }
+                    if(Game.checkmate(turn % 2 == 0)){
+                        if(turn % 2 != 0){
+                            System.out.println("Checkmate, white wins!");
+                        }
+                        else{
+                            System.out.println("Checkmate, black wins!");
+                        }
+                    }
+                    else if(Game.isStalemate(turn % 2 == 0)){
+                        System.out.println("Stalemate, this game ends in a draw.");
+                    }
                 }
             }
         });
@@ -103,16 +115,46 @@ public class Component extends JComponent{
         JFrame frame = new JFrame();
         Component component = new Component();
         frame.add(component);
-        frame.setSize(800,800);
+        frame.setSize(900,900);
         frame.setVisible(true);
         while(true){
             frame.repaint();
-            if(Game.checkmate(component.turn % 2 == 0)){
+            if(Game.stop()){
                 if(component.turn % 2 != 0){
-                    System.out.println("Checkmate, white wins!");
+                    JFrame frame2 = new JFrame();
+                    JLabel label = new JLabel();
+                    ImageIcon image = new ImageIcon("whiteWins.png");
+                    label.setText("Checkmate, white wins!");
+                    label.setHorizontalTextPosition(JLabel.CENTER);
+                    label.setVerticalTextPosition(JLabel.TOP);
+                    label.setForeground(new Color(0, 255, 255));
+                    label.setFont(new Font("VCR OSD Mono", Font.PLAIN, 40));
+                    label.setIcon(image);
+                    label.setBackground(Color.black);
+                    label.setOpaque(true);
+                    label.setVerticalAlignment(JLabel.CENTER);
+                    label.setHorizontalAlignment(JLabel.CENTER);
+                    frame2.add(label);
+                    frame2.setSize(image.getIconWidth(),image.getIconHeight() + 100);
+                    frame2.setVisible(true);
                 }
                 else{
-                    System.out.println("Checkmate, black wins!");
+                    JFrame frame2 = new JFrame();
+                    JLabel label = new JLabel();
+                    ImageIcon image = new ImageIcon("redWins.png");
+                    label.setText("Checkmate, red wins!");
+                    label.setHorizontalTextPosition(JLabel.CENTER);
+                    label.setVerticalTextPosition(JLabel.TOP);
+                    label.setForeground(new Color(0, 255, 255));
+                    label.setFont(new Font("VCR OSD Mono", Font.PLAIN, 40));
+                    label.setIcon(image);
+                    label.setBackground(Color.black);
+                    label.setOpaque(true);
+                    label.setVerticalAlignment(JLabel.BOTTOM);
+                    label.setHorizontalAlignment(JLabel.CENTER);
+                    frame2.add(label);
+                    frame2.setSize(image.getIconWidth(),image.getIconHeight() + 100);
+                    frame2.setVisible(true);
                 }
                 break;
             }
